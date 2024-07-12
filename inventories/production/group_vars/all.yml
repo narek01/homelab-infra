@@ -1,0 +1,16 @@
+---
+# to use short names in your inventory file
+# uncomment the following lines.
+# then you can use the hostname as the inventory name
+# and do not need to specify the fqdn.
+
+# host_domain: company.example.com
+# ansible_host: "{{inventory_hostname}}.{{host_domain}}"
+
+ansible_user: ansible
+ansible_connection: ssh
+ansible_become_method: sudo
+ansible_python_interpreter: "/usr/bin/python3"
+
+# if you want to use a specific ssh key
+# ansible_ssh_private_key_file: /Users/rwaffen/.ssh/ansible

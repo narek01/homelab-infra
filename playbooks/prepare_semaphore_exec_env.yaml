@@ -1,0 +1,18 @@
+---
+#
+# This has to be run once the container from semaphore is up and running
+# It will install the collections and pip packages needed for the playbooks
+#
+
+- name: "Dummy plug on localhost"
+  hosts: localhost
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: "Install collections"
+      ansible.builtin.import_tasks:
+        file: "../tasks/install_collections.yml"
+
+    - name: "Install pip packages"
+      ansible.builtin.import_tasks:
+        file: "../tasks/install_pip.yml"

@@ -1,0 +1,37 @@
+---
+stages:
+  - lint
+
+yamllint:
+  stage: lint
+  image:
+    name: cytopia/yamllint:latest
+    entrypoint: ["/bin/ash", "-c"]
+  script:
+    - yamllint --version
+    - yamllint .
+
+ansible-lint:
+  stage: lint
+  image: pipelinecomponents/ansible-lint:latest
+  script:
+    - git --version
+    - ansible-lint --version
+    - ansible-lint
+    - ansible-lint roles/
+
+ansible-syntax:
+  stage: lint
+  image:
+    name: cytopia/ansible:latest
+    entrypoint: ["/bin/sh", "-c"]
+  variables:
+    ANSIBLE_ROLES_PATH: roles
+  script:
+    - apk add git
+    - git --version
+    - ansible-galaxy --version
+    - ansible-playbook --version
+    - ansible-galaxy role install -r roles/requirements.yml
+    - ansible-galaxy collection install -r collections/requirements.yml
+    - ansible-playbook --syntax-check --list-tasks playbooks/*.yml
