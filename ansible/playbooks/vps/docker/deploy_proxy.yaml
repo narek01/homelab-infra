@@ -1,0 +1,15 @@
+---
+  - name: Deploy Nginx Proxy
+    hosts: "{{ target_hosts | default('hip-moscow') }}"
+    tasks:
+      - name: Copy Docker Compose files
+        copy:
+          src: nginx
+          dest: ".ansible/"
+      - name: Deploy
+        environment:
+          PATH: /home/ansible/.local/bin:{{ ansible_env.PATH }}
+        community.docker.docker_compose_v2:
+          project_name: nginx-proxy
+          project_src: ".ansible/nginx"
+

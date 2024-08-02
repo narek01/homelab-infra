@@ -7,6 +7,10 @@ on:  # yamllint disable-line rule:truthy
 
 name: ⚒️ CI
 
+defaults:
+  run:
+    working-directory: ansible
+
 jobs:
   yamllint:
     runs-on: ubuntu-latest

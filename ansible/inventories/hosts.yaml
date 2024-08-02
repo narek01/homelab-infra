@@ -1,0 +1,19 @@
+all:
+  hosts:
+    opnsense:
+  children:
+    arm:
+      children:
+        orangepi:
+          hosts:
+            orangepi3b-1:
+            orangepi3b-2:
+            orangepi5-1:
+      hosts:
+        raspberrypi3b:
+          ohmyzsh_users: [narek]
+          ohmyzsh_plugins: [git, sudo]
+    vps:
+      hosts:
+        hip-moscow:
+          ansible_host: 193.124.33.123

@@ -1,0 +1,57 @@
+---
+host_domain: home.arpa
+
+ansible_user: ansible
+ansible_connection: ssh
+ansible_become_method: sudo
+ansible_python_interpreter: "/usr/bin/python3"
+ansible_ssh_private_key_file: /home/narek/.ssh/homelab_ansible
+
+package_list:
+  - name: apt-transport-https
+  - name: bash-completion
+  - name: ca-certificates  
+  - name: curl
+  - name: iperf3
+  - name: lm-sensors
+  - name: ncdu
+  - name: net-tools
+  - name: wget
+  - name: whois
+  - name: zsh
+
+management_user_list:
+  - name: ansible
+    append: yes
+    groups: ['docker']
+    comment: Managed by Ansible
+    shell: '/bin/bash'
+    authorized_keys:
+      - key: "{{ lookup('file', playbook_dir + '/../../user-public-keys/homelab_ansible.pub') }}"
+        exclusive: yes
+    sudo:
+      hosts: ALL
+      as: ALL
+      commands: ALL
+      nopasswd: yes
+  - name: narek
+    append: yes
+    groups: ['docker']
+    comment: Managed by Ansible
+    shell: '/bin/zsh'
+    password: "$6$GvaxXkA4UbLvWP3o$IFUnrDdMO0kr.3Gy.fnMSJmPBnSjcUGrBUvmS9R4CTjxlq9fTb8vwAVQplJJDDNXK4NSpUn0bY.SEWo9tyJAz."
+    authorized_keys:
+      - key: "{{ lookup('file', playbook_dir + '/../../user-public-keys/narek.pub') }}"
+    sudo:
+      hosts: ALL
+      as: ALL
+      commands: ALL
+      nopasswd: no
+  - name: ubuntu
+    state: absent
+  - name: orangepi
+    state: absent
+
+sshd:
+  PasswordAuthentication: no
+  PermitRootLogin: no

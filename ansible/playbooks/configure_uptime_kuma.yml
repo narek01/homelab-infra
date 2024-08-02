@@ -1,0 +1,41 @@
+---
+- name: Configure Uptime Kuma
+  hosts: "{{ target_hosts | default('localhost') }}"
+  become: false
+  vars:
+    uptime_kuma_url: https://uptime.biohse.ru
+    ssh_monitors:
+      - hostname: alignfig.com
+        port: 2255
+        name: Alignfig
+      - hostname: ssh.kube.biohse.ru
+        port: 40404
+        name: FBB-NAS
+      - hostname: ssh.biohse.ru
+        port: 2255
+        name: Junior
+      - hostname: ssh.biohse.ru
+        port: 50505
+        name: Monster
+  tasks:
+    - name: Login with credentials once and register the result
+      lucasheld.uptime_kuma.login:
+        api_url: "{{ uptime_kuma_url }}"
+        api_username: narek01
+        api_password: "{{ uptime_kuma_password }}"
+      register: result
+
+    - name: Extract the token from the result and set it as fact
+      set_fact:
+        api_token: "{{ result.token }}"
+
+    - name: Create SSH Monitors
+      lucasheld.uptime_kuma.monitor:
+        api_url: "{{ uptime_kuma_url }}"
+        api_token: "{{ api_token }}"
+        name: "SSH {{ item.name }}"
+        type: port
+        port: "{{ item.port }}"
+        hostname: "{{ item.hostname }}"
+        state: present
+      loop: "{{ ssh_monitors }}"

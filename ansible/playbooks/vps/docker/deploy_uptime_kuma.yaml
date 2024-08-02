@@ -1,0 +1,14 @@
+---
+  - name: Deploy Uptime Kuma Monitoring Tool
+    hosts: "{{ target_hosts | default('hip-moscow') }}"
+    tasks:
+      - name: Copy Docker Compose files
+        copy:
+          src: uptime-kuma # We are in junior_infra/ansible/playbooks
+          dest: ".ansible/"
+      - name: Deploy
+        environment:
+          PATH: /home/ansible/.local/bin:{{ ansible_env.PATH }}
+        community.docker.docker_compose_v2:
+          project_name: uptime-kuma
+          project_src: ".ansible/uptime-kuma"

@@ -1,0 +1,9 @@
+fqdn_short: "{{inventory_hostname}}"
+fqdn_full: "{{inventory_hostname}}.engib.ru"
+
+pip_install_packages:
+  - name: docker
+  - name: PyYAML
+
+package_list_group:
+  - name: python3-pip

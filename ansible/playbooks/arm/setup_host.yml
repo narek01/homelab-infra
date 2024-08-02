@@ -1,0 +1,26 @@
+---
+- name: Setup OS
+  become: true
+  hosts: "{{ target_hosts | default('arm') }}"
+
+  pre_tasks:
+    - name: Disable autologin for orangepi
+      ansible.builtin.file:
+        path: '/lib/systemd/system/{{ item }}@.service.d/override.conf'
+        state: absent
+      loop:
+        - getty
+        - serial-getty
+      when: inventory_hostname in groups['orangepi']
+  roles:
+    - GROG.fqdn
+    - GROG.package
+    - name: GROG.management-user
+      ignore_errors: true
+    - name: diodonfrost.ohmyzsh
+      ignore_errors: true
+      vars:
+        ohmyzsh_theme: robbyrussell
+        ohmyzsh_users: [narek]
+        ohmyzsh_plugins: [git, sudo]
+    - willshersystems.sshd

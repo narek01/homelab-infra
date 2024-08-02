@@ -1,0 +1,15 @@
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:1
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - uptime-kuma:/app/data
+    environment:
+      VIRTUAL_HOST: uptime.biohse.ru
+      LETSENCRYPT_HOST: uptime.biohse.ru
+      VIRTUAL_PORT: 3001
+
+volumes:
+  uptime-kuma:
+
