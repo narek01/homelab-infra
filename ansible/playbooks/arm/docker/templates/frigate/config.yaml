@@ -1,0 +1,43 @@
+mqtt:
+  enabled: False
+# detectors:
+#   rknn:
+#     type: rknn
+#     core_mask: 0b111
+# model:
+#   path: default-yolov8n
+#   width: 320
+#   height: 320
+#   input_tensor: nhwc
+#   input_pixel_format: bgr
+
+cameras:
+  camera1:
+    enabled: True
+    detect:
+      enabled: False
+    ffmpeg:
+      hwaccel_args: preset-rk-h265
+      inputs:
+        - path: rtsp://127.0.0.1:8554/camera1
+          input_args: preset-rtsp-restream
+  camera2:
+    enabled: True
+    detect:
+      enabled: False
+    ffmpeg:
+      hwaccel_args: preset-rk-h265
+      inputs:
+        - path: rtsp://127.0.0.1:8554/camera2
+          input_args: preset-rtsp-restream
+
+go2rtc:
+  streams:
+    camera1:
+      - onvif://frigate:{{ docker.frigate.rtsp_password }}@192.168.101.60:8899/
+      - "ffmpeg:camera1#audio=opus"
+    camera2:
+      - rtsp://frigate:{{ docker.frigate.rtsp_password }}@192.168.101.61:554/stream1/
+      - "ffmpeg:camera2#audio=opus"
+    camera2_sub:
+      - rtsp://frigate:{{ docker.frigate.rtsp_password }}@192.168.101.61:554

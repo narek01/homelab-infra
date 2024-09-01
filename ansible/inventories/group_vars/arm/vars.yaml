@@ -1,3 +1,4 @@
+host_domain: home.arpa
 ansible_host: "{{inventory_hostname}}.{{host_domain}}"
 fqdn_short: "{{inventory_hostname}}"
 fqdn_full: "{{ansible_host}}"

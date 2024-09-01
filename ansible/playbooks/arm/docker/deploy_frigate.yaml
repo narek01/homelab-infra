@@ -1,0 +1,22 @@
+---
+  - name: Deploy Frigate
+    hosts: "{{ target_hosts | default('orangepi5-1') }}"
+    vars_files:
+      - ../../../inventories/group_vars/arm/secret-variables.yaml
+    tasks:
+      - name: Render template
+        ansible.builtin.template:
+          src: frigate/config.yaml
+          dest: ".ansible/frigate/config.yaml"
+          mode: '0640'
+      - name: Copy Docker Compose files
+        copy:
+          src: frigate # We are in junior_infra/ansible/playbooks
+          dest: ".ansible/"
+      - name: Deploy
+        environment:
+          PATH: /home/ansible/.local/bin:{{ ansible_env.PATH }}
+        community.docker.docker_compose_v2:
+          project_name: frigate
+          project_src: ".ansible/frigate"
+          state: restarted

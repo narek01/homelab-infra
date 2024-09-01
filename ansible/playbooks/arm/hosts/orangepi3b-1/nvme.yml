@@ -1,0 +1,37 @@
+---
+- name: Setup NVMe disk
+  become: true
+  hosts: orangepi3b-1
+
+  pre_tasks:
+    - name: Create a new ext4 primary partition
+      community.general.parted:
+        device: /dev/disk/by-id/nvme-HP_SSD_FX900_Pro_1TB_HBSE44010100973
+        label: gpt
+        fs_type: ext4
+        number: 1
+        state: present
+        unit: MiB
+    - name: Create a ext4 filesystem on /dev/sdb1 and check disk blocks
+      community.general.filesystem:
+        fstype: ext4
+        dev: /dev/disk/by-id/nvme-HP_SSD_FX900_Pro_1TB_HBSE44010100973-part1
+    - name: Mount and bind a volume
+      ansible.posix.mount:
+        path: /mnt/nvme
+        src: /dev/disk/by-id/nvme-HP_SSD_FX900_Pro_1TB_HBSE44010100973-part1
+        state: mounted
+        fstype: ext4
+    - name: Copy daemon.json config file
+      copy:
+        src: daemon.json
+        dest: /etc/docker/daemon.json
+        remote_src: no
+        mode: 0644
+        owner: root
+        group: root
+    - name: Docker systemctl enable and start
+      systemd:
+        name: docker
+        enabled: yes
+        state: restarted

@@ -1,0 +1,14 @@
+---
+  - name: Deploy netalertx
+    hosts: "{{ target_hosts | default('orangepi3b-1') }}"
+    tasks:
+      - name: Copy Docker Compose files
+        copy:
+          src: netalertx # We are in junior_infra/ansible/playbooks
+          dest: ".ansible/"
+      - name: Deploy
+        environment:
+          PATH: /home/ansible/.local/bin:{{ ansible_env.PATH }}
+        community.docker.docker_compose_v2:
+          project_name: netalertx
+          project_src: ".ansible/netalertx"

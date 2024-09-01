@@ -1,0 +1,16 @@
+services:
+  netalertx:
+    container_name: netalertx
+    image: jokobsk/netalertx:latest
+    network_mode: "host"
+    restart: unless-stopped
+    volumes:
+      - netalertx-config:/app/config
+      - netalertx-db:/app/db      
+    environment:
+      - TZ=Europe/Moscow      
+      - PORT=20211
+
+volumes:
+  netalertx-config:
+  netalertx-db:

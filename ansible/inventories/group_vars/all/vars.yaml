@@ -1,6 +1,4 @@
 ---
-host_domain: home.arpa
-
 ansible_user: ansible
 ansible_connection: ssh
 ansible_become_method: sudo
@@ -19,6 +17,7 @@ package_list:
   - name: wget
   - name: whois
   - name: zsh
+  - name: docker-compose-plugin
 
 management_user_list:
   - name: ansible

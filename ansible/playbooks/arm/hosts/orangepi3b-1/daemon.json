@@ -1,0 +1,7 @@
+{
+    "data-root": "/mnt/nvme/docker",
+    "registry-mirrors": [
+      "https://cr.yandex/mirror",
+      "https://mirror.gcr.io"
+    ]
+}

@@ -1,0 +1,31 @@
+services:
+  frigate:
+    container_name: frigate
+    image: ghcr.io/blakeblackshear/frigate:stable-rk
+    restart: unless-stopped
+    volumes:
+      - frigate-config:/config
+      - frigate-storage:/media/frigate
+      - ./config.yaml:/config/config.yaml
+      - type: tmpfs
+        target: /tmp/cache
+        tmpfs:
+          size: 1000000000
+    ports:
+      - "5000:5000"
+      - "1984:1984"
+      - "8971:8971"
+      - "8554:8554" # RTSP feeds
+    shm_size: "2600mb"
+    security_opt:
+      - apparmor=unconfined
+      - systempaths=unconfined
+    devices:
+      - /dev/dri
+      - /dev/dma_heap
+      - /dev/rga
+      - /dev/mpp_service
+
+volumes:
+  frigate-config:
+  frigate-storage:
