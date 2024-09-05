@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     volumes:
       - frigate-config:/config
-      - frigate-storage:/media/frigate
+      - /mnt/ssd/docker/volumes/frigate-storage:/media/frigate
       - ./config.yaml:/config/config.yaml
       - type: tmpfs
         target: /tmp/cache
@@ -28,4 +28,3 @@ services:
 
 volumes:
   frigate-config:
-  frigate-storage:

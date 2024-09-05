@@ -11,6 +11,34 @@ mqtt:
 #   input_tensor: nhwc
 #   input_pixel_format: bgr
 
+review:
+  alerts:
+    labels:
+      - car
+      - cat
+      - dog
+      - person
+      - speech
+    required_zones:
+      - main
+
+motion:
+  threshold: 45
+  contour_area: 20
+
+record:
+  enabled: True
+  retain:
+    days: 3
+    mode: motion
+  events:
+    retain:
+      default: 30
+      mode: active_objects
+      objects:
+        dog: 3
+        car: 14
+
 cameras:
   camera1:
     enabled: True
@@ -21,6 +49,17 @@ cameras:
       inputs:
         - path: rtsp://127.0.0.1:8554/camera1
           input_args: preset-rtsp-restream
+          roles:
+            - detect
+            - record
+    motion:
+      mask: 0.174,0.93,0.015,0.932,0.014,0.965,0.174,0.965
+    zones:
+      main:
+        coordinates: 
+          0.003,0.981,0.008,0.724,0.529,0.223,0.542,0.106,0.837,0.081,0.875,0.209,0.995,0.661,0.997,0.997
+        inertia: 3
+        loitering_time: 3
   camera2:
     enabled: True
     detect:
@@ -30,6 +69,20 @@ cameras:
       inputs:
         - path: rtsp://127.0.0.1:8554/camera2
           input_args: preset-rtsp-restream
+          roles:
+            - record
+        - path: rtsp://127.0.0.1:8554/camera2_sub
+          input_args: preset-rtsp-restream
+          roles:
+            - detect
+    motion:
+      mask: 0.007,0.95,0.231,0.948,0.232,0.978,0.009,0.979
+    zones:
+      main:
+        coordinates: 
+          0.315,0.306,0.568,0.303,0.596,0.321,0.607,0.386,0.787,0.631,0.747,0.992,0.007,0.998,0.006,0.912,0.192,0.797,0.2,0.393
+        inertia: 3
+        loitering_time: 3
 
 go2rtc:
   streams:

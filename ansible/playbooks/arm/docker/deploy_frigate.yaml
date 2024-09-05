@@ -19,4 +19,4 @@
         community.docker.docker_compose_v2:
           project_name: frigate
           project_src: ".ansible/frigate"
-          state: restarted
+          recreate: always

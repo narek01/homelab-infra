@@ -1,0 +1,6 @@
+{
+    "registry-mirrors": [
+      "https://cr.yandex/mirror",
+      "https://mirror.gcr.io"
+    ]
+}
