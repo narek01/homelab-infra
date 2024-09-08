@@ -1,0 +1,14 @@
+---
+  - name: Deploy Zitadel
+    hosts: "{{ target_hosts | default('hip-moscow') }}"
+    tasks:
+      - name: Copy Docker Compose files
+        copy:
+          src: zitadel
+          dest: ".ansible/"
+      - name: Deploy
+        environment:
+          PATH: /home/ansible/.local/bin:{{ ansible_env.PATH }}
+        community.docker.docker_compose_v2:
+          project_name: zitadel
+          project_src: ".ansible/zitadel"
