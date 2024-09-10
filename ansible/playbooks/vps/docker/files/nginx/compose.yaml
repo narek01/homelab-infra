@@ -16,6 +16,7 @@ services:
       DEFAULT_HOST: uptime.engib.ru
     networks:
       - uptime-kuma_default
+      - zitadel_default
     restart: unless-stopped
 
   nginx-proxy-acme:
@@ -30,10 +31,13 @@ services:
       DEFAULT_EMAIL: narek@engibaryan.ru
     networks:
       - uptime-kuma_default
+      - zitadel_default
     restart: unless-stopped
 
 networks:
   uptime-kuma_default:
+    external: true
+  zitadel_default:
     external: true
 
 volumes:

@@ -1,6 +1,8 @@
 ---
   - name: Deploy Zitadel
     hosts: "{{ target_hosts | default('hip-moscow') }}"
+    vars_files:
+      - ../../../inventories/group_vars/vps/secret-variables.yaml
     tasks:
       - name: Copy Docker Compose files
         copy:
@@ -9,6 +11,11 @@
       - name: Deploy
         environment:
           PATH: /home/ansible/.local/bin:{{ ansible_env.PATH }}
+          ZITADEL_MASTERKEY: "{{ zitadel.masterkey }}"
+          POSTGRES_USER_PASSWORD: "{{ zitadel.postgres.user_password }}"
+          POSTGRES_ADMIN_PASSWORD: "{{ zitadel.postgres.admin_password }}"
+          SMTP_PASSWORD: "{{ zitadel.smtp_password }}"
+
         community.docker.docker_compose_v2:
           project_name: zitadel
           project_src: ".ansible/zitadel"
