@@ -17,3 +17,8 @@ all:
       hosts:
         hip-moscow:
           ansible_host: 193.124.33.123
+        hip-frankfurt:
+          ansible_host: 185.255.179.38
+          ansible_user: root
+          ansible_password: Cl9yjTF3p9e9YW
+          
