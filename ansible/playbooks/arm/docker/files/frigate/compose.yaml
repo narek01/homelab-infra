@@ -2,15 +2,19 @@ services:
   frigate:
     container_name: frigate
     image: ghcr.io/blakeblackshear/frigate:stable-rk
-    restart: unless-stopped
+    restart: always
     volumes:
       - frigate-config:/config
-      - /mnt/ssd/docker/volumes/frigate-storage:/media/frigate
       - ./config.yaml:/config/config.yaml
       - type: tmpfs
         target: /tmp/cache
         tmpfs:
           size: 1000000000
+      - type: volume
+        source: truenas-recordings
+        target: /media/frigate
+        volume:
+          nocopy: true
     ports:
       - "5000:5000"
       - "1984:1984"
@@ -28,3 +32,8 @@ services:
 
 volumes:
   frigate-config:
+  truenas-recordings:
+    driver_opts:
+      type: "nfs"
+      o: "nfsvers=4,addr=truenas.home.arpa,nolock,soft,rw"
+      device: ":/mnt/Recordings/frigate"

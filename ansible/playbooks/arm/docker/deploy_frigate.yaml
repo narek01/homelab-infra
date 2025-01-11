@@ -4,6 +4,10 @@
     vars_files:
       - ../../../inventories/group_vars/arm/secret-variables.yaml
     tasks:
+      - name: Create folder
+        file:
+          path: .ansible/frigate
+          state: directory
       - name: Render template
         ansible.builtin.template:
           src: frigate/config.yaml
