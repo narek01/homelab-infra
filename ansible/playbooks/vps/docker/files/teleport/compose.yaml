@@ -1,0 +1,15 @@
+services:
+  teleport:
+    image: public.ecr.aws/gravitational/teleport-distroless-debug:16.4.12
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - teleport-data:/var/lib/teleport
+    environment:
+      VIRTUAL_HOST: teleport.engib.ru
+      LETSENCRYPT_HOST: teleport.engib.ru
+      VIRTUAL_PORT: 3080
+
+volumes:
+  teleport-data:
+
