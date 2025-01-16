@@ -1,8 +1,9 @@
 mqtt:
   enabled: False
-# detectors:
-#   rknn:
-#     type: rknn
+detectors:
+  rknn:
+    type: rknn
+    num_cores: 0
 #     core_mask: 0b111
 # model:
 #   path: default-yolov8n
@@ -10,6 +11,24 @@ mqtt:
 #   height: 320
 #   input_tensor: nhwc
 #   input_pixel_format: bgr
+model: # required
+  # name of model (will be automatically downloaded) or path to your own .rknn model file
+  # possible values are:
+  # - deci-fp16-yolonas_s
+  # - deci-fp16-yolonas_m
+  # - deci-fp16-yolonas_l
+  # - /config/model_cache/your_custom_model.rknn
+  path: deci-fp16-yolonas_s
+  # width and height of detection frames
+  width: 320
+  height: 320
+  # pixel format of detection frame
+  # default value is rgb but yolo models usually use bgr format
+  input_pixel_format: bgr # required
+  # shape of detection frame
+  input_tensor: nhwc
+  # needs to be adjusted to model, see below
+  labelmap_path: /labelmap/coco-80.txt # required
 
 review:
   alerts:
@@ -29,7 +48,7 @@ motion:
 record:
   enabled: True
   retain:
-    days: 3
+    days: 14
     mode: motion
   events:
     retain:
@@ -38,6 +57,14 @@ record:
       objects:
         dog: 3
         car: 14
+
+snapshots:
+  enabled: True
+  retain:
+    default: 30
+
+audio:
+  enabled: True
 
 cameras:
   camera1:
@@ -52,6 +79,7 @@ cameras:
           roles:
             - detect
             - record
+            - audio
     motion:
       mask: 0.174,0.93,0.015,0.932,0.014,0.965,0.174,0.965
     zones:
@@ -63,7 +91,7 @@ cameras:
   camera2:
     enabled: True
     detect:
-      enabled: False
+      enabled: True
     ffmpeg:
       hwaccel_args: preset-rk-h265
       inputs:
@@ -71,6 +99,7 @@ cameras:
           input_args: preset-rtsp-restream
           roles:
             - record
+            - audio
         - path: rtsp://127.0.0.1:8554/camera2_sub
           input_args: preset-rtsp-restream
           roles:
