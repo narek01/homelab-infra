@@ -17,6 +17,7 @@ services:
     networks:
       - uptime-kuma_default
       - zitadel_default
+      - portainer_default
     restart: unless-stopped
 
   nginx-proxy-acme:
@@ -32,12 +33,15 @@ services:
     networks:
       - uptime-kuma_default
       - zitadel_default
+      - portainer_default
     restart: unless-stopped
 
 networks:
   uptime-kuma_default:
     external: true
   zitadel_default:
+    external: true
+  portainer_default:
     external: true
 
 volumes:

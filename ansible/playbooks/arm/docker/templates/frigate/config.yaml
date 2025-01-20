@@ -112,6 +112,30 @@ cameras:
           0.315,0.306,0.568,0.303,0.596,0.321,0.607,0.386,0.787,0.631,0.747,0.992,0.007,0.998,0.006,0.912,0.192,0.797,0.2,0.393
         inertia: 3
         loitering_time: 3
+  # camera3:
+  #   enabled: True
+  #   detect:
+  #     enabled: True
+  #   ffmpeg:
+  #     hwaccel_args: preset-rk-h265
+  #     inputs:
+  #       - path: rtsp://127.0.0.1:8554/camera3
+  #         input_args: preset-rtsp-restream
+  #         roles:
+  #           - record
+  #           - audio
+  #       - path: rtsp://127.0.0.1:8554/camera3_sub
+  #         input_args: preset-rtsp-restream
+  #         roles:
+  #           - detect
+  #   motion:
+  #     mask: 0.007,0.95,0.231,0.948,0.232,0.978,0.009,0.979
+  #   zones:
+  #     main:
+  #       coordinates: 
+  #         0.315,0.306,0.568,0.303,0.596,0.321,0.607,0.386,0.787,0.631,0.747,0.992,0.007,0.998,0.006,0.912,0.192,0.797,0.2,0.393
+  #       inertia: 3
+  #       loitering_time: 3
 
 go2rtc:
   streams:
@@ -123,3 +147,8 @@ go2rtc:
       - "ffmpeg:camera2#audio=opus"
     camera2_sub:
       - rtsp://frigate:{{ docker.frigate.rtsp_password }}@192.168.101.61:554
+    # camera3:
+    #   - rtsp://192.168.101.62:554/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif
+    #   - ffmpeg:camera2#audio=opus
+    # camers3_sub:
+    #   - rtsp://192.168.101.62:554/cam/realmonitor?channel=1&subtype=1&unicast=true&proto=Onvif
