@@ -15,7 +15,7 @@
           POSTGRES_USER_PASSWORD: "{{ zitadel.postgres.user_password }}"
           POSTGRES_ADMIN_PASSWORD: "{{ zitadel.postgres.admin_password }}"
           SMTP_PASSWORD: "{{ zitadel.smtp_password }}"
-
+          ZITADEL_ADMIN_PASSWORD: "{{ zitadel.admin_password }}"
         community.docker.docker_compose_v2:
           project_name: zitadel
           project_src: ".ansible/zitadel"

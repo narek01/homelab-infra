@@ -4,6 +4,7 @@ services:
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - teleport.yaml:/etc/teleport/
       - teleport-data:/var/lib/teleport
     environment:
       VIRTUAL_HOST: teleport.engib.ru
@@ -12,4 +13,3 @@ services:
 
 volumes:
   teleport-data:
-

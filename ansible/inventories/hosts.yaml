@@ -5,8 +5,10 @@ all:
     vm:
       hosts:
         nas-dockervm:
+          ansible_host: 192.168.101.13
+        amneziawg:
           ansible_host: 192.168.100.114
-          ansible_user: root
+          # ansible_user: root
     arm:
       children:
         orangepi:

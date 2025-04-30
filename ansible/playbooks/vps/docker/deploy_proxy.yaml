@@ -12,4 +12,3 @@
         community.docker.docker_compose_v2:
           project_name: nginx-proxy
           project_src: ".ansible/nginx"
-

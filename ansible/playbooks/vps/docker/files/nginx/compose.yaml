@@ -12,8 +12,8 @@ services:
       - ./my_proxy.conf:/etc/nginx/conf.d/my_proxy.conf:ro
     labels:
       com.github.nginx-proxy.nginx: ""
-    environment:
-      DEFAULT_HOST: uptime.engib.ru
+    # environment:
+      # DEFAULT_HOST: uptime.engib.ru
     networks:
       - uptime-kuma_default
       - zitadel_default

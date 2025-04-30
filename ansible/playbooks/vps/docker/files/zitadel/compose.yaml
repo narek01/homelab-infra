@@ -2,7 +2,7 @@ services:
   zitadel:
     restart: unless-stopped
     image: 'ghcr.io/zitadel/zitadel:latest'
-    command: 'start-from-init --masterkeyFromEnv --tlsMode disabled'
+    command: 'start-from-init --masterkeyFromEnv --tlsMode external'
     environment:
       ZITADEL_DATABASE_POSTGRES_HOST: db
       ZITADEL_DATABASE_POSTGRES_PORT: 5432
@@ -16,6 +16,8 @@ services:
       # ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_HOST: smtp.timeweb.ru:2525
       # ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_USER: zitadel@engib.ru
       # ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_PASSWORD: "${SMTP_PASSWORD}"
+      ZITADEL_FIRSTINSTANCE_ORG_HUMAN_USERNAME: "narek"
+      ZITADEL_FIRSTINSTANCE_ORG_HUMAN_PASSWORD: "${ZITADEL_ADMIN_PASSWORD}"
       ZITADEL_MASTERKEY: "${ZITADEL_MASTERKEY}"
       ZITADEL_EXTERNALSECURE: true
       ZITADEL_EXTERNALDOMAIN: zitadel.engib.ru
