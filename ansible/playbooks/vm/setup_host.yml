@@ -5,9 +5,9 @@
 
   roles:
     - GROG.fqdn
+    - geerlingguy.docker
     - GROG.package
     - geerlingguy.pip
-    - geerlingguy.docker
     - name: GROG.management-user
       ignore_errors: true
     - name: diodonfrost.ohmyzsh
