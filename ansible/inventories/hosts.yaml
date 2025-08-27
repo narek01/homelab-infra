@@ -26,3 +26,5 @@ all:
           ansible_host: 193.124.33.123
         hip-frankfurt:
           ansible_host: 185.255.179.38
+        the-armenia:
+          ansible_host: 91.132.132.31
